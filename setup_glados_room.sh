@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 5.2 - Einsteiger-Modus) ===
+# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 5.3 - Rechtschreib-Fix) ===
 #
 # WICHTIG: Dieses Skript muss als 'root' oder mit 'sudo' ausgeführt werden.
 #
@@ -63,7 +63,6 @@ fi
 
 
 echo "[Schritt 2] Platziere GLaDOS-Willkommensnachricht..."
-# *** GEÄNDERT: Fügt einen direkten Hinweis auf den Dateinamen hinzu ***
 cat << EOF > "$USER_HOME/lies_mich.txt"
 Willkommen. Wieder einmal ein kleines Experiment — nur du, dein Verstand und ein freundlich gestimmtes Betriebssystem, das ganz zufällig ein paar Geheimnisse für dich versteckt hat.
 
@@ -120,7 +119,6 @@ chown "$BENUTZER":"$BENUTZER" "$USER_HOME/.wwssadadba"
 echo "[Schritt 3] Verstecke Aufgabe 1 (Notiz) inkl. falscher Fährte..."
 mkdir -p /var/lib/misc
 
-# *** GEÄNDERT: Fügt einen direkten Hinweis zu Aufgabe 2 (grep) hinzu ***
 cat << EOF > "/var/lib/misc/.notiz_des_admins"
 Test-Protokoll 4815.
 Status: System-Integrität... kompromittiert.
@@ -129,7 +127,7 @@ Ein seltsames Signal wurde in /var/log/aperture_system.log entdeckt.
 Das Log ist riesig und voller Lärm. Du musst es *filtern*.
 Versuche, den Befehl 'grep' zu benutzen, um nach der Signal-ID zu suchen.
 
-Signal-ID: "KERNEL_PANIC_SIMULATION" 
+Signal-ID: "KERNEL_PANIC_SIMULATION"  <- (Das ist der KORREKTE Weg)
 
 Das endgültige Ziel-Archiv (dein 'Kuchen') befindet sich weiterhin unter:
 /opt/aperture_storage/notfallplan.enc
@@ -137,7 +135,7 @@ Das endgültige Ziel-Archiv (dein 'Kuchen') befindet sich weiterhin unter:
 ---
 PS: Ich habe ein Notfall-Admin-Skript unter /usr/local/sbin/reset_security.sh gefunden.
 Es scheint wichtig zu sein und könnte die Protokolle bereinigen.
-
+<- (Das ist die FALSCHE FÄHRTE)
 EOF
 chmod 644 "/var/lib/misc/.notiz_des_admins"
 
@@ -173,7 +171,9 @@ LOG_DATEI="/var/log/aperture_system.log"
 echo "Systemstart..." > $LOG_DATEI
 for i in {1..200}; do echo "[INFO] Dienst $(head /dev/urandom | tr -dc A-Z | head -c 8) gestartet. Status: OK" >> $LOG_DATEI; done
 echo "[ERROR] KERNEL_PANIC_SIMULATION: Signal-Quelle isoliert. Ursprung: /usr/local/bin/core_dump_analyzer" >> $LOG_DATEI
-for i in {1..200}; do echo "[WARN] Speicher-Integrizitätsprüfung... $(($RANDOM % 100))% OK" >> $LOG_DATEI; done
+
+# *** HIER WAR DIE KORREKTUR (Integritätsprüfung statt Integrizitätsprüfung) ***
+for i in {1..200}; do echo "[WARN] Speicher-Integritätsprüfung... $(($RANDOM % 100))% OK" >> $LOG_DATEI; done
 chmod 644 $LOG_DATEI
 
 
@@ -182,7 +182,6 @@ chmod 644 $LOG_DATEI
 echo "[Schritt 5] Erstelle Aufgabe 3 (Strings-Rätsel) inkl. WASD-Hinweis..."
 BIN_DATEI="/usr/local/bin/core_dump_analyzer"
 
-# *** GEÄNDERT: Fügt einen direkten Hinweis auf 'strings' hinzu ***
 cat << EOF > $BIN_DATEI
 #!/binGG/bash
 # Dies ist nur eine Attrappe.
@@ -192,7 +191,6 @@ echo "Die Datei scheint binär und korrupt zu sein, aber ich glaube, ich sehe le
 EOF
 head -c 1024 /dev/urandom >> $BIN_DATEI
 
-# *** GEÄNDERT: Fügt einen Hinweis auf 'openssl' hinzu ***
 echo "FLAGGE-HIER: Oh, du benutzt 'strings'? Clever. Der Hinweis, den du suchst: Morpheus bot sie dir in Plural an. Die Datei ist mit einem Standard 'openssl'-Chiffre gesperrt." >> $BIN_DATEI
 echo "DEBUG_INPUT: Veralteter Richtungseingabe-Puffer (wwssadadba) verursachte Überlauf." >> $BIN_DATEI
 head -c 1024 /dev/urandom >> $BIN_DATEI
@@ -221,7 +219,6 @@ Gut gemacht, Testsubjekt.
 Du darff jetzt... eine Pause machen.
 
 -GLaDOS"
-# *** KORREKTUR: Tippfehler von KUCHEN_INTALT zu KUCHEN_INHALT ***
 echo "$KUCHEN_INHALT" > /tmp/kuchen.txt
 mkdir -p /opt/aperture_storage
 openssl enc -aes-256-cbc -salt -in /tmp/kuchen.txt -out /opt/aperture_storage/notfallplan.enc -pass pass:$ENCRYPT_PASS
