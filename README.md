@@ -47,13 +47,12 @@ Sobald sich das Skript in deiner VM befindet, öffne ein Terminal in der VM:
 
 # 4. Führe das Skript als Administrator aus
 sudo ./setup_glados_room.sh
-```
 
 Du befindest dich nun im Escape Room. Deine erste Anweisung (`lies_mich.txt`) wartet bereits auf dich.
 
 ---
 
-### 📖 Dokumentation
+#📖 Dokumentation
 
 * **`docs/Aperture Science Test-Handbuch (Für Testsubjekte).md`:** Enthält eine spoiler-freie Anleitung für den Spieler, wie er den Test beginnt.
 * **`docs/GLaDOS Escape Room: Lösungsbuch (SPOILER).md`:** (SPOILER!) Enthält die komplette Schritt-für-Schritt-Lösung für alle 4 Rätsel und Geheimnisse.
