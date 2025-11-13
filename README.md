@@ -1,10 +1,3 @@
-
-GLaDOS Linux Escape Room VM-Only
-
-Willkommen. Wieder einmal ein kleines Experiment — nur du, dein Verstand und ein freundlich gestimmtes Betriebssystem, das ganz zufällig ein paar Geheimnisse für dich versteckt hat.
-
-Dies ist ein textbasierter "Escape Room", der komplett im Linux-Terminal gespielt wird. Du wirst eine Kette von 4 Rätseln lösen müssen, indem du Standard-Linux-Befehle wie `find`, `grep`, `strings` und `openssl` benutzt.
-
 Dieses Projekt ist dafür gedacht, in einer **isolierten virtuellen Umgebung** ausgeführt zu werden.
 
 
