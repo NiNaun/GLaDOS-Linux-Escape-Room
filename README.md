@@ -71,6 +71,3 @@ Du befindest dich nun im Escape Room. Deine erste Anweisung (`lies_mich.txt`) wa
 * **`docs/Aperture Science Test-Handbuch (Für Testsubjekte).md`:** Enthält eine spoiler-freie Anleitung für den Spieler, wie er den Test beginnt.
 * **`docs/GLaDOS Escape Room: Lösungsbuch (SPOILER).md`:** (SPOILER!) Enthält die komplette Schritt-für-Schritt-Lösung für alle 4 Rätsel und Geheimnisse.
 
-### 🧹 Aufräumen (Den Raum zurücksetzen)
-
-Wenn du fertig bist, kannst du entweder den VM-Snapshot von Schritt 1 wiederherstellen (der einfachste Weg) oder das `cleanup_glados_room.sh`-Skript (ebenfalls mit `sudo`) ausführen, um alle Spuren des Escape Rooms von deiner VM zu entfernen.
