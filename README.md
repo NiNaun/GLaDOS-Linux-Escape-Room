@@ -32,3 +32,6 @@ docs/Aperture Science Test-Handbuch (Für Testsubjekte).md Enthält eine spoiler
 
 docs/GLaDOS Escape Room: Lösungsbuch (SPOILER).md (SPOILER!) Enthält die komplette Schritt-für-Schritt-Lösung für alle 4 Rätsel und Geheimnisse.
 
+
+Wichtig für die volle Erfahrung ist eine VM mit Internet anbinung nötig!
+
