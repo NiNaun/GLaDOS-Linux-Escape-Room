@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 5.0 - All-in-One) ===
+# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 5.2 - Einsteiger-Modus) ===
 #
 # WICHTIG: Dieses Skript muss als 'root' oder mit 'sudo' ausgeführt werden.
 #
@@ -63,6 +63,7 @@ fi
 
 
 echo "[Schritt 2] Platziere GLaDOS-Willkommensnachricht..."
+# *** GEÄNDERT: Fügt einen direkten Hinweis auf den Dateinamen hinzu ***
 cat << EOF > "$USER_HOME/lies_mich.txt"
 Willkommen. Wieder einmal ein kleines Experiment — nur du, dein Verstand und ein freundlich gestimmtes Betriebssystem, das ganz zufällig ein paar Geheimnisse für dich versteckt hat.
 
@@ -70,9 +71,9 @@ Deine Aufgabe ist eine Kette. Nicht mehr, nicht weniger. Ein Glied führt zum n�
 
 Aufgabe 1: Finde das erste Glied. Es ist nicht in deinem Home-Verzeichnis, es ist nicht offensichtlich. Es wartet dort, wo neugierige Finger normalerweise nicht graben. Nein, ich werde dir nicht sagen, wo. Das wäre zu nett.
 
-Aufgabe 2-4: Sobald du den ersten Hinweis gefunden hast, wirst du feststellen, dass er dich nur tiefer in den Kaninchenbau führt — durch laute Protokolle, obskure Binärdateien und schließlich zu deinem wahren Ziel: einer verschlüsselten Datei.
+...Andererseits habe ich den 'Admin' dabei beobachtet, wie er irgendeine unwichtige 'Notiz' im Verzeichnis /var/lib/misc versteckt hat. Wie unvorsichtig. (Du brauchst 'ls -a', um versteckte Dateien zu sehen).
 
-Deine letzte Leistung besteht darin, diese Datei zu entschlüsseln. Werkzeuge sind vorhanden. Können und Geduld sind erforderlich. Beides liegt in deiner Verantwortung.
+Aufgabe 2-4: Sobald du den ersten Hinweis gefunden hast, wirst du feststellen, dass er dich nur tiefer in den Kaninchenbau führt...
 
 Erledige die *gesamte* Kette, und vielleicht — nur vielleicht — bekommst du das, was sich alle so sehnsüchtig wünschen: Kuchen. Ich beobachte dich. Viel Glück. Du wirst es brauchen.
 
@@ -119,22 +120,24 @@ chown "$BENUTZER":"$BENUTZER" "$USER_HOME/.wwssadadba"
 echo "[Schritt 3] Verstecke Aufgabe 1 (Notiz) inkl. falscher Fährte..."
 mkdir -p /var/lib/misc
 
+# *** GEÄNDERT: Fügt einen direkten Hinweis zu Aufgabe 2 (grep) hinzu ***
 cat << EOF > "/var/lib/misc/.notiz_des_admins"
 Test-Protokoll 4815.
 Status: System-Integrität... kompromittiert.
 
 Ein seltsames Signal wurde in /var/log/aperture_system.log entdeckt.
-Es scheint eine Art... Simulation zu sein.
-Signal-ID: "KERNEL_PANIC_SIMULATION"  
+Das Log ist riesig und voller Lärm. Du musst es *filtern*.
+Versuche, den Befehl 'grep' zu benutzen, um nach der Signal-ID zu suchen.
+
+Signal-ID: "KERNEL_PANIC_SIMULATION" 
 
 Das endgültige Ziel-Archiv (dein 'Kuchen') befindet sich weiterhin unter:
 /opt/aperture_storage/notfallplan.enc
 
-Zugriffscodes sind... woanders. Finde das Signal im Log.
-
 ---
 PS: Ich habe ein Notfall-Admin-Skript unter /usr/local/sbin/reset_security.sh gefunden.
 Es scheint wichtig zu sein und könnte die Protokolle bereinigen.
+
 EOF
 chmod 644 "/var/lib/misc/.notiz_des_admins"
 
@@ -178,14 +181,19 @@ chmod 644 $LOG_DATEI
 
 echo "[Schritt 5] Erstelle Aufgabe 3 (Strings-Rätsel) inkl. WASD-Hinweis..."
 BIN_DATEI="/usr/local/bin/core_dump_analyzer"
+
+# *** GEÄNDERT: Fügt einen direkten Hinweis auf 'strings' hinzu ***
 cat << EOF > $BIN_DATEI
-#!/binG/bash
+#!/binGG/bash
 # Dies ist nur eine Attrappe.
 echo "ERROR: Core-Dump-Analyse fehlgeschlagen. Segmentierungsfehler."
+echo "Die Datei scheint binär und korrupt zu sein, aber ich glaube, ich sehe lesbare 'strings' (Zeichenketten) darin..."
 # Versuche 'strings' zu benutzen...
 EOF
 head -c 1024 /dev/urandom >> $BIN_DATEI
-echo "FLAGGE-HIER: Oh, du benutzt 'strings'? Clever. Der Hinweis, den du suchst: Morpheus bot sie dir in Plural an." >> $BIN_DATEI
+
+# *** GEÄNDERT: Fügt einen Hinweis auf 'openssl' hinzu ***
+echo "FLAGGE-HIER: Oh, du benutzt 'strings'? Clever. Der Hinweis, den du suchst: Morpheus bot sie dir in Plural an. Die Datei ist mit einem Standard 'openssl'-Chiffre gesperrt." >> $BIN_DATEI
 echo "DEBUG_INPUT: Veralteter Richtungseingabe-Puffer (wwssadadba) verursachte Überlauf." >> $BIN_DATEI
 head -c 1024 /dev/urandom >> $BIN_DATEI
 chmod 755 $BIN_DATEI
@@ -213,6 +221,7 @@ Gut gemacht, Testsubjekt.
 Du darff jetzt... eine Pause machen.
 
 -GLaDOS"
+# *** KORREKTUR: Tippfehler von KUCHEN_INTALT zu KUCHEN_INHALT ***
 echo "$KUCHEN_INHALT" > /tmp/kuchen.txt
 mkdir -p /opt/aperture_storage
 openssl enc -aes-256-cbc -salt -in /tmp/kuchen.txt -out /opt/aperture_storage/notfallplan.enc -pass pass:$ENCRYPT_PASS
@@ -228,7 +237,6 @@ chmod 644 /opt/aperture_storage/notfallplan.enc
 echo "[Schritt 7] Erstelle Dokumentationsdateien im aktuellen Verzeichnis..."
 
 # Spieler-Handbuch
-# cat << 'EOF' (mit '') ist wichtig, damit $ und ` als Text behandelt werden
 cat << 'EOF' > "./SPIELER-HANDBUCH.md"
 🧪 Aperture Science Test-Handbuch (Für Testsubjekte)
 Testprotokoll: 48-C (Terminal-Integritätsprüfung) Testsubjekt: ... Überwacher: GLaDOS
