@@ -2,7 +2,7 @@
 
 > Willkommen. Wieder einmal ein kleines Experiment — nur du, dein Verstand und ein freundlich gestimmtes Betriebssystem, das ganz zufällig ein paar Geheimnisse für dich versteckt hat.
 
-# GLaDOS Linux Escape Room (VM-Edition)
+# GLaDOS Linux Escape Room VM-Only
 
 > Willkommen. Wieder einmal ein kleines Experiment — nur du, dein Verstand und ein freundlich gestimmtes Betriebssystem, das ganz zufällig ein paar Geheimnisse für dich versteckt hat.
 
