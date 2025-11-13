@@ -225,6 +225,7 @@ chmod 644 /opt/aperture_storage/notfallplan.enc
 
 
 # --- FINALE AUSGABE (BEREINIGT) ---
+clear
 
 echo ""
 echo "-----------------------------------------------------"
