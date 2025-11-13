@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 4.9 - Konami-Lösung) ===
+# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 5.0 - All-in-One) ===
 #
 # WICHTIG: Dieses Skript muss als 'root' oder mit 'sudo' ausgeführt werden.
 #
@@ -84,10 +84,8 @@ EOF
 
 echo "[Schritt 2.5] Platziere den Lösungs-Cheat-Code (als Skript)..."
 
-# *** GEÄNDERT ***
 # 1. Erstelle das Skript (wwssadadba)
-# WICHTIG: 'EOF' (ohne '') wird verwendet, damit $ENCRYPT_PASS korrekt eingesetzt wird.
-cat << EOF > "$USER_HOME/wwssadadba"
+cat << EOF > "$USER_HOME/.wwssadadba"
 #!/bin/bash
 echo "##############################################"
 echo "### CHEAT-CODE ERKANNT: 'wwssadadba'     ###"
@@ -102,7 +100,7 @@ openssl enc -aes-256-cbc -d -in /opt/aperture_storage/notfallplan.enc -pass pass
 EOF
 
 # 2. Mache das Skript ausführbar
-chmod +x "$USER_HOME/wwssadadba"
+chmod +x "$USER_HOME/.wwssadadba"
 
 # 3. Füge das Home-Verzeichnis zum PATH hinzu
 echo "" >> "$USER_HOME/.bashrc"
@@ -113,7 +111,7 @@ echo "export PATH=\$PATH:\$HOME" >> "$USER_HOME/.bashrc"
 # Setze die Besitzer der Dateien
 chown "$BENUTZER":"$BENUTZER" "$USER_HOME/.bashrc"
 chown "$BENUTZER":"$BENUTZER" "$USER_HOME/lies_mich.txt"
-chown "$BENUTZER":"$BENUTZER" "$USER_HOME/wwssadadba"
+chown "$BENUTZER":"$BENUTZER" "$USER_HOME/.wwssadadba"
 
 
 # --- SCHRITT 3: Aufgabe 1 (Find) - MIT FALSCHER FÄHRTE ---
@@ -127,7 +125,7 @@ Status: System-Integrität... kompromittiert.
 
 Ein seltsames Signal wurde in /var/log/aperture_system.log entdeckt.
 Es scheint eine Art... Simulation zu sein.
-Signal-ID: "KERNEL_PANIC_SIMULATION"  <- (Das ist der KORREKTE Weg)
+Signal-ID: "KERNEL_PANIC_SIMULATION"  
 
 Das endgültige Ziel-Archiv (dein 'Kuchen') befindet sich weiterhin unter:
 /opt/aperture_storage/notfallplan.enc
@@ -137,7 +135,6 @@ Zugriffscodes sind... woanders. Finde das Signal im Log.
 ---
 PS: Ich habe ein Notfall-Admin-Skript unter /usr/local/sbin/reset_security.sh gefunden.
 Es scheint wichtig zu sein und könnte die Protokolle bereinigen.
-<- (Das ist die FALSCHE FÄHRTE)
 EOF
 chmod 644 "/var/lib/misc/.notiz_des_admins"
 
@@ -224,14 +221,48 @@ chown -R "$BENUTZER":"$BENUTZER" /opt/aperture_storage
 chmod 644 /opt/aperture_storage/notfallplan.enc
 
 
-# --- FINALE AUSGABE (BEREINIGT) ---
-clear
+# --- SCHRITT 7: Erstelle Dokumentationsdateien ---
+# Diese Dateien werden im aktuellen Verzeichnis (.) erstellt,
+# in dem das Setup-Skript ausgeführt wird.
 
-echo ""
-echo "-----------------------------------------------------"
-echo "✅ GLaDOS ESCAPE ROOM ERFOLGREICH EINGERICHTET!"
-echo ""
-echo "Der Spieler kann sich jetzt einloggen mit:"
-echo "  Benutzer: $BENUTZER"
-echo "  Passwort: $PASSWORT"
-echo "-----------------------------------------------------"
+echo "[Schritt 7] Erstelle Dokumentationsdateien im aktuellen Verzeichnis..."
+
+# Spieler-Handbuch
+# cat << 'EOF' (mit '') ist wichtig, damit $ und ` als Text behandelt werden
+cat << 'EOF' > "./SPIELER-HANDBUCH.md"
+🧪 Aperture Science Test-Handbuch (Für Testsubjekte)
+Testprotokoll: 48-C (Terminal-Integritätsprüfung) Testsubjekt: ... Überwacher: GLaDOS
+
+Willkommen, Testsubjekt.
+Du wurdest für ein Experiment von entscheidender Bedeutung ausgewählt. Oder besser gesagt, du warst verfügbar.
+Dieses Dokument dient als dein offizielles Handbuch für die bevorstehende Prüfung.
+Da du wahrscheinlich nicht in der Lage bist, komplexe Anweisungen zu verarbeiten, ist es kurz.
+
+1. Die Testparameter (Die Regeln)
+Dein "Raum": Dein Test findet ausschließlich in dieser textbasierten Schnittstelle statt, die manche 'Terminal' oder 'Shell' nennen.
+Es gibt keine bunten Fenster, die dich ablenken, keine hilfreichen Klick-Menüs. Nur du und ein blinkender Cursor.
+Deine "Werkzeuge": Alle Werkzeuge, die du zur Lösung der Aufgaben benötigest, sind bereits in diesem System installiert.
+Es ist nicht unsere Schuld, wenn du nicht weißt, wie man sie benutzt. Lesen hilft.
+
+Deine "Hilfe": Es gibt keine.
+
+2. Die Teststruktur (Deine 4 Aufgaben)
+Im Gegensatz zu früheren Tests, bei denen du nur einen roten Knopf drücken musstest (was du erstaunlich oft falsch gemacht hast), besteht dieser Test aus einer Kette von vier Aufgaben.
+Deine erste Anweisung, die du nach dem Login finden wirst (lies_mich.txt), wird dies bestätigen.
+Erwarte den folgenden Ablauf:
+
+1.Finden: Du musst einen versteckten Hinweis aufspüren.
+2.Filtern: Du musst diesen Hinweis nutzen, um relevante Informationen aus einer Menge "Lärm" zu extrahieren.
+3.Analysieren: Du musst eine obskure Datei untersuchen, um den nächsten Hinweis zu finden.
+4.Entschlüsseln: Du musst das finale Rätsel knacken, um an deine... Belohnung zu kommen.
+Jeder Schritt gibt dir den Hinweis für den nächsten. Ein Versagen in einem Glied der Kette bedeutet ein totales Versagen.
+Kein Druck.
+
+3. Beginn des Tests (Der Login)
+Um die Testumgebung zu betreten, befolge bitte exakt diese Schritte.
+Öffne das Terminal-Programm auf deinem Computer.
+
+Gib den folgenden Befehl ein, um dich als das designierte Testsubjekt anzumelden:
+
+```bash
+su - testperson
