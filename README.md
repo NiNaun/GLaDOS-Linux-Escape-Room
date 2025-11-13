@@ -34,6 +34,7 @@ Du befindest dich nun im Escape Room. Deine erste Anweisung (`lies_mich.txt`) wa
 
 
 Dokumentation
+
 docs/Aperture Science Test-Handbuch (Für Testsubjekte).md Enthält eine spoiler-freie Anleitung für den Spieler, wie er den Test beginnt.
 docs/GLaDOS Escape Room: Lösungsbuch (SPOILER).md (SPOILER!) Enthält die komplette Schritt-für-Schritt-Lösung für alle 4 Rätsel und Geheimnisse.
 
