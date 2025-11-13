@@ -7,8 +7,6 @@ Dies ist ein textbasierter "Escape Room", der komplett im Linux-Terminal gespiel
 
 Dieses Projekt ist dafür gedacht, in einer **isolierten virtuellen Umgebung** ausgeführt zu werden.
 
----
-
 
 Wie man spielt (Anleitung für Virtuelle Maschine)
 
