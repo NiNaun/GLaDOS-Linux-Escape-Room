@@ -2,38 +2,75 @@
 
 > Willkommen. Wieder einmal ein kleines Experiment — nur du, dein Verstand und ein freundlich gestimmtes Betriebssystem, das ganz zufällig ein paar Geheimnisse für dich versteckt hat.
 
+# GLaDOS Linux Escape Room (VM-Edition)
+
+> Willkommen. Wieder einmal ein kleines Experiment — nur du, dein Verstand und ein freundlich gestimmtes Betriebssystem, das ganz zufällig ein paar Geheimnisse für dich versteckt hat.
+
 Dies ist ein textbasierter "Escape Room", der komplett im Linux-Terminal gespielt wird. Du wirst eine Kette von 4 Rätseln lösen müssen, indem du Standard-Linux-Befehle wie `find`, `grep`, `strings` und `openssl` benutzt.
 
----
-
-### 🚀 Wie man spielt (Der einfache Weg)
-
-Du benötigst [Docker](https://www.docker.com/get-started), um diese Testumgebung sicher und isoliert auszuführen.
-
-**1. Erstelle den Raum (Image bauen)**
-Klone dieses Repository oder lade es herunter, öffne dein Terminal und navigiere in diesen Ordner. Führe dann diesen Befehl aus:
-
-```bash
-docker build -t glados-room .
-```
-
-**2. Betrete den Raum (Container starten)**
-Sobald der Bau abgeschlossen ist, starte den Test mit diesem Befehl:
-
-```bash
-docker run -it --rm glados-room
-```
-
-Du befindest dich nun als `testperson` im Escape Room. Deine erste Anweisung (`lies_mich.txt`) wartet bereits auf dich.
-
-Viel Glück. Du wirst es brauchen.
-
-*(Falls du das `Aperture Science Test-Handbuch (Für Testsubjekte).md` lesen möchtest, findest du es in diesem Repository.)*
+Dieses Projekt ist dafür gedacht, in einer **isolierten virtuellen Umgebung** ausgeführt zu werden.
 
 ---
 
-### ⚠️ Warnung (Der manuelle Weg)
+### ⚠️ WICHTIGE WARNUNG
 
-Das Repository enthält ein `setup_glados_room.sh`-Skript. Dieses Skript ist **NUR** für den Docker-Build oder für die Verwendung in einer **isolierten Wegwerf-VM** (z.B. VirtualBox) gedacht.
+Das in diesem Repository enthaltene Skript `setup_glados_room.sh` ist ein "Level-Builder". Es ist darauf ausgelegt, ein sauberes Linux-System in einen Escape Room zu verwandeln.
 
-**FÜHRE DAS SKRIPT NIEMALS MIT `sudo` AUF DEINEM HAUPT-PC AUS.** Es erstellt Benutzer, ändert Berechtigungen und schreibt Dateien in Systemverzeichnisse (`/var`, `/opt`, `/usr`).
+**FÜHRE DIESES SKRIPT NIEMALS MIT `sudo` AUF DEINEM HAUPT-PC (HOST-SYSTEM) AUS!**
+
+Das Skript wird:
+* Neue Benutzer (`testperson`) anlegen.
+* Dateien und Ordner in Systemverzeichnissen (`/var`, `/opt`, `/usr/local`) erstellen.
+* Dateiberechtigungen ändern.
+
+Verwende es **ausschließlich** innerhalb einer dedizierten, sauberen Wegwerf-VM.
+
+---
+
+### 🚀 Wie man spielt (Anleitung für Virtuelle Maschine)
+
+Du benötigst eine VM-Software (wie [VirtualBox](https://www.virtualbox.org/) oder [VMware Player](https://www.vmware.com/products/workstation-player.html)) und ein Linux-Betriebssystem-Image (z.B. [Ubuntu Server](https://ubuntu.com/download/server)).
+
+**1. Erstelle die Testkammer (VM installieren)**
+Installiere ein sauberes Linux (z.B. Ubuntu) in deiner VM-Software. Stelle sicher, dass du einen Snapshot machst, nachdem die Installation abgeschlossen ist, damit du den Raum leicht zurücksetzen kannst.
+
+**2. Übertrage das Setup-Skript**
+Starte deine neue VM und logge dich ein. Du musst das `setup_glados_room.sh`-Skript von diesem GitHub-Repository auf deine VM übertragen.
+
+Methoden hierfür sind:
+* Ein "Shared Folder" (Geteilter Ordner) in den VirtualBox-Gasteinstellungen.
+* Manuelles Kopieren und Einfügen des Skript-Inhalts in einen neuen Editor (z.B. `nano setup.sh`) innerhalb der VM.
+* Verwendung von `git clone`, falls `git` auf der VM installiert ist.
+
+**3. Baue den Escape Room (Skript ausführen)**
+Sobald sich das Skript in deiner VM befindet, öffne ein Terminal in der VM:
+
+```bash
+# 1. Mache das Skript ausführbar
+chmod +x setup_glados_room.sh
+
+# 2. Führe das Skript als Administrator aus
+sudo ./setup_glados_room.sh
+```
+Das Skript läuft nun durch und erstellt den Benutzer `testperson` sowie alle Rätsel.
+
+**4. Betrete den Raum (Spiel starten)**
+Du bist jetzt bereit zu spielen. Logge dich *innerhalb deiner VM* als der Testbenutzer ein:
+
+```bash
+su - testperson
+```
+* **Passwort:** `aperture`
+
+Du befindest dich nun im Escape Room. Deine erste Anweisung (`lies_mich.txt`) wartet bereits auf dich.
+
+---
+
+### 📖 Dokumentation
+
+* **`docs/SPIELER-HANDBUCH.md`:** Enthält eine spoiler-freie Anleitung für den Spieler, wie er den Test beginnt.
+* **`docs/LOESUNGSBUCH.md`:** (SPOILER!) Enthält die komplette Schritt-für-Schritt-Lösung für alle 4 Rätsel und Geheimnisse.
+
+### 🧹 Aufräumen (Den Raum zurücksetzen)
+
+Wenn du fertig bist, kannst du entweder den VM-Snapshot von Schritt 1 wiederherstellen (der einfachste Weg) oder das `cleanup_glados_room.sh`-Skript (ebenfalls mit `sudo`) ausführen, um alle Spuren des Escape Rooms von deiner VM zu entfernen.
