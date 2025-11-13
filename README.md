@@ -45,22 +45,9 @@ Methoden hierfür sind:
 **3. Baue den Escape Room (Skript ausführen)**
 Sobald sich das Skript in deiner VM befindet, öffne ein Terminal in der VM:
 
-```bash
-# 1. Mache das Skript ausführbar
-chmod +x setup_glados_room.sh
-
-# 2. Führe das Skript als Administrator aus
+# 4. Führe das Skript als Administrator aus
 sudo ./setup_glados_room.sh
 ```
-Das Skript läuft nun durch und erstellt den Benutzer `testperson` sowie alle Rätsel.
-
-**4. Betrete den Raum (Spiel starten)**
-Du bist jetzt bereit zu spielen. Logge dich *innerhalb deiner VM* als der Testbenutzer ein:
-
-```bash
-su - testperson
-```
-* **Passwort:** `aperture`
 
 Du befindest dich nun im Escape Room. Deine erste Anweisung (`lies_mich.txt`) wartet bereits auf dich.
 
