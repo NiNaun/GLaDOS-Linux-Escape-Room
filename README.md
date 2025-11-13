@@ -21,9 +21,9 @@ Installiere ein sauberes Linux (z.B. Ubuntu) in deiner VM-Software. Stelle siche
 Starte deine neue VM und logge dich ein. Du musst das `setup_glados_room.sh`-Skript von diesem GitHub-Repository auf deine VM übertragen.
 
 Methoden hierfür sind:
-* Ein "Shared Folder" (Geteilter Ordner) in den VirtualBox-Gasteinstellungen.
-* Manuelles Kopieren und Einfügen des Skript-Inhalts in einen neuen Editor (z.B. `nano setup.sh`) innerhalb der VM.
-* Verwendung von `git clone`, falls `git` auf der VM installiert ist.
+- Ein "Shared Folder" (Geteilter Ordner) in den VirtualBox-Gasteinstellungen.
+- Manuelles Kopieren und Einfügen des Skript-Inhalts in einen neuen Editor (z.B. `nano setup.sh`) innerhalb der VM.
+- Verwendung von `git clone`, falls `git` auf der VM installiert ist.
 
 3. Baue den Escape Room (Skript ausführen)**
 Sobald sich das Skript in deiner VM befindet, öffne ein Terminal in der VM:
@@ -36,6 +36,6 @@ Du befindest dich nun im Escape Room. Deine erste Anweisung (`lies_mich.txt`) wa
 
 
 Dokumentation
-docs/Aperture Science Test-Handbuch (Für Testsubjekte).md`:** Enthält eine spoiler-freie Anleitung für den Spieler, wie er den Test beginnt.
-docs/GLaDOS Escape Room: Lösungsbuch (SPOILER).md`:** (SPOILER!) Enthält die komplette Schritt-für-Schritt-Lösung für alle 4 Rätsel und Geheimnisse.
+docs/Aperture Science Test-Handbuch (Für Testsubjekte).md Enthält eine spoiler-freie Anleitung für den Spieler, wie er den Test beginnt.
+docs/GLaDOS Escape Room: Lösungsbuch (SPOILER).md (SPOILER!) Enthält die komplette Schritt-für-Schritt-Lösung für alle 4 Rätsel und Geheimnisse.
 
