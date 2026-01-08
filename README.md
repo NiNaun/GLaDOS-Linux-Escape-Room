@@ -37,6 +37,9 @@ Wichtig für die volle Erfahrung ist eine VM mit Internet anbinung nötig!
 
 
 
+Verwirrung hier kleine Infos:
+
+
 README.md                   (Die Hauptanleitung, die jeder sieht)
 
 setup_glados_room.sh        (Das Skript, das Docker benutzt)
