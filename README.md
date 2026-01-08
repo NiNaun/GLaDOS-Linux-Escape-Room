@@ -38,7 +38,11 @@ Wichtig für die volle Erfahrung ist eine VM mit Internet anbinung nötig!
 
 
 README.md                   (Die Hauptanleitung, die jeder sieht)
+
 setup_glados_room.sh        (Das Skript, das Docker benutzt)
+
 cleanup_glados_room.sh      (Dein lokales Aufräum-Skript)
+
 SPIELER-HANDBUCH.md         (Anleitung für Spieler)
+
 LOESUNGSBUCH.md             (SPOILER! Die Lösung)
