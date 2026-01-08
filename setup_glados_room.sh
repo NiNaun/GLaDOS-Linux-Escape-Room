@@ -1,224 +1,136 @@
 #!/bin/bash
 
-# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 5.3 - Rechtschreib-Fix) ===
+# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 5.4 - Absolute Stability) ===
 #
-# WICHTIG: Dieses Skript muss als 'root' oder mit 'sudo' ausgeführt werden.
+# WICHTIG: Ausführung als 'root' zwingend erforderlich.
 #
 # === KONFIGURATION ===
 BENUTZER="testperson"
-PASSWORT="aperture" # Das Passwort für den Spieler
-ENCRYPT_PASS="pills" # Das Passwort für die finale Datei
+PASSWORT="aperture" 
+ENCRYPT_PASS="pills"
 # =====================
 
-
-# 0. Prüfen, ob das Skript als root läuft
 if [ "$(id -u)" -ne 0 ]; then
-  echo "FEHLER: Dieses Skript muss als root (oder mit sudo) ausgeführt werden."
+  echo "FEHLER: Root-Rechte erforderlich."
   exit 1
 fi
 
-echo "Starte GLaDOS Escape Room Setup (Repariere .bashrc)..."
+echo "Initialisiere GLaDOS Escape Room..."
 
-
-# --- SCHRITT 0: Abhängigkeiten prüfen (curl für Rickroll) ---
-
-echo "[Schritt 0] Prüfe Abhängigkeiten (curl)..."
+# --- SCHRITT 0: Abhängigkeiten ---
 if ! command -v curl &> /dev/null; then
-    echo "curl nicht gefunden. Versuche zu installieren..."
     if command -v apt-get &> /dev/null; then
-        apt-get update > /dev/null
-        apt-get install -y curl
+        apt-get update > /dev/null && apt-get install -y curl
     elif command -v dnf &> /dev/null; then
         dnf install -y curl
     elif command -v pacman &> /dev/null; then
         pacman -S --noconfirm curl
-    else
-        echo "WARNUNG: Konnte curl nicht automatisch installieren. Der Rickroll funktioniert möglicherweise nicht."
     fi
 fi
 
-
-# --- SCHRITT 1: Benutzer und Startdateien ---
-
-echo "[Schritt 1] Erstelle Benutzer '$BENUTZER'..."
-if id "$BENUTZER" &>/dev/null; then
-    echo "Benutzer '$BENUTZER' existiert bereits. Überspringe Erstellung, setze aber Passwort."
-else
+# --- SCHRITT 1: Benutzer-Setup ---
+if ! id "$BENUTZER" &>/dev/null; then
     useradd -m -s /bin/bash "$BENUTZER"
-    echo "Benutzer '$BENUTZER' erstellt."
 fi
-
 echo "$BENUTZER:$PASSWORT" | chpasswd
-echo "Passwort für '$BENUTZER' wurde auf '$PASSWORT' gesetzt."
-
 USER_HOME="/home/$BENUTZER"
 
-# *** .bashrc-Reparatur ***
-echo "[Schritt 1.5] Setze .bashrc für '$BENUTZER' zurück..."
+# .bashrc Reset
 if [ -f "/etc/skel/.bashrc" ]; then
     cp /etc/skel/.bashrc "$USER_HOME/.bashrc"
 else
     echo "# Standard .bashrc" > "$USER_HOME/.bashrc"
 fi
 
-
-echo "[Schritt 2] Platziere GLaDOS-Willkommensnachricht..."
+# --- SCHRITT 2: Willkommensnachricht ---
 cat << EOF > "$USER_HOME/lies_mich.txt"
 Willkommen. Wieder einmal ein kleines Experiment — nur du, dein Verstand und ein freundlich gestimmtes Betriebssystem, das ganz zufällig ein paar Geheimnisse für dich versteckt hat.
 
-Deine Aufgabe ist eine Kette. Nicht mehr, nicht weniger. Ein Glied führt zum nächsten. Das ist gut, denn mehr als eine Sache auf einmal zu denken, wäre für dich vermutlich unfair.
+Deine Aufgabe ist eine Kette. Ein Glied führt zum nächsten. 
 
-Aufgabe 1: Finde das erste Glied. Es ist nicht in deinem Home-Verzeichnis, es ist nicht offensichtlich. Es wartet dort, wo neugierige Finger normalerweise nicht graben. Nein, ich werde dir nicht sagen, wo. Das wäre zu nett.
+Aufgabe 1: Finde das erste Glied. Es ist nicht in deinem Home-Verzeichnis. Es wartet dort, wo neugierige Finger normalerweise nicht graben. 
 
-...Andererseits habe ich den 'Admin' dabei beobachtet, wie er irgendeine unwichtige 'Notiz' im Verzeichnis /var/lib/misc versteckt hat. Wie unvorsichtig. (Du brauchst 'ls -a', um versteckte Dateien zu sehen).
+Hinweis: Der 'Admin' hat eine 'Notiz' im Verzeichnis /var/lib/misc versteckt. Nutze 'ls -a'.
 
-Aufgabe 2-4: Sobald du den ersten Hinweis gefunden hast, wirst du feststellen, dass er dich nur tiefer in den Kaninchenbau führt...
+Aufgabe 2-4: Der erste Hinweis führt tiefer. 
 
-Erledige die *gesamte* Kette, und vielleicht — nur vielleicht — bekommst du das, was sich alle so sehnsüchtig wünschen: Kuchen. Ich beobachte dich. Viel Glück. Du wirst es brauchen.
+Erledige die gesamte Kette für das Ziel: Kuchen. 
 
-Deine Lieblings KI GLaDOS
+GLaDOS
 EOF
 
+# --- SCHRITT 2.5: Cheat-Code (Hidden) ---
+# Entferne alte sichtbare Datei, falls vorhanden
+rm -f "$USER_HOME/wwssadadba"
 
-# --- SCHRITT 2.5: Konami-Code Easter Egg (LÖST DAS SPIEL) ---
-
-echo "[Schritt 2.5] Platziere den Lösungs-Cheat-Code (als Skript)..."
-
-# 1. Erstelle das Skript (wwssadadba)
+# Erstelle versteckte Datei
 cat << EOF > "$USER_HOME/.wwssadadba"
 #!/bin/bash
 echo "##############################################"
-echo "### CHEAT-CODE ERKANNT: 'wwssadadba'     ###"
-echo "### NOTFALL-ENT SCHLÜSSELUNG WIRD DURCHGEFÜHRT... ###"
+echo "### CHEAT-CODE ERKANNT: 'wwssadadba'       ###"
+echo "### NOTFALL-ENTSCHLÜSSELUNG...             ###"
 echo "##############################################"
 echo ""
 sleep 1
-
-# Führt den finalen Entschlüsselungsbefehl aus und übergibt das
-# Passwort ($ENCRYPT_PASS) direkt, um den Kuchen anzuzeigen.
 openssl enc -aes-256-cbc -d -in /opt/aperture_storage/notfallplan.enc -pass pass:$ENCRYPT_PASS
 EOF
 
-# 2. Mache das Skript ausführbar
 chmod +x "$USER_HOME/.wwssadadba"
-
-# 3. Füge das Home-Verzeichnis zum PATH hinzu
-echo "" >> "$USER_HOME/.bashrc"
-echo "# Füge lokales Verzeichnis zum PATH hinzu (für Easter Egg)" >> "$USER_HOME/.bashrc"
 echo "export PATH=\$PATH:\$HOME" >> "$USER_HOME/.bashrc"
 
-
-# Setze die Besitzer der Dateien
 chown "$BENUTZER":"$BENUTZER" "$USER_HOME/.bashrc"
 chown "$BENUTZER":"$BENUTZER" "$USER_HOME/lies_mich.txt"
 chown "$BENUTZER":"$BENUTZER" "$USER_HOME/.wwssadadba"
 
-
-# --- SCHRITT 3: Aufgabe 1 (Find) - MIT FALSCHER FÄHRTE ---
-
-echo "[Schritt 3] Verstecke Aufgabe 1 (Notiz) inkl. falscher Fährte..."
+# --- SCHRITT 3: Aufgabe 1 (Find) ---
 mkdir -p /var/lib/misc
-
 cat << EOF > "/var/lib/misc/.notiz_des_admins"
-Test-Protokoll 4815.
-Status: System-Integrität... kompromittiert.
+Test-Protokoll 4815. Status: Kompromittiert.
 
-Ein seltsames Signal wurde in /var/log/aperture_system.log entdeckt.
-Das Log ist riesig und voller Lärm. Du musst es *filtern*.
-Versuche, den Befehl 'grep' zu benutzen, um nach der Signal-ID zu suchen.
+Signal in /var/log/aperture_system.log entdeckt. Nutze 'grep'.
+Signal-ID: "KERNEL_PANIC_SIMULATION"
 
-Signal-ID: "KERNEL_PANIC_SIMULATION"  <- (Das ist der KORREKTE Weg)
-
-Das endgültige Ziel-Archiv (dein 'Kuchen') befindet sich weiterhin unter:
-/opt/aperture_storage/notfallplan.enc
+Ziel-Archiv: /opt/aperture_storage/notfallplan.enc
 
 ---
-PS: Ich habe ein Notfall-Admin-Skript unter /usr/local/sbin/reset_security.sh gefunden.
-Es scheint wichtig zu sein und könnte die Protokolle bereinigen.
-<- (Das ist die FALSCHE FÄHRTE)
+Notfall-Skript: /usr/local/sbin/reset_security.sh
 EOF
 chmod 644 "/var/lib/misc/.notiz_des_admins"
 
-
-# --- SCHRITT 3.5: Die Rickroll-Falle ---
-
-echo "[Schritt 3.5] Platziere die falsche Fährte (Rickroll)..."
+# --- SCHRITT 3.5: Rickroll ---
 mkdir -p /usr/local/sbin
 cat << EOF > "/usr/local/sbin/reset_security.sh"
 #!/bin/bash
-# APERTURE SCIENCE SICHERHEITS-RESET
 echo "Initialisiere System-Reset..."
 sleep 1
-echo "Kontaktiere zentralen Authentifizierungsserver (192.168.0.1)..."
-sleep 2
-echo "Fehler. Server nicht erreichbar. Wechsle zu Notfall-Protokoll..."
-sleep 1
-echo "Lade Notfall-Sicherheitsschlüssel von externer Quelle..."
-sleep 2
 curl -L nvr.ooo
-echo ""
-echo "Sicherheitsschlüssel... kompromittiert."
-echo "Gut gemacht. Du hast dir eine Pause verdient."
-echo "Zurück zur Arbeit."
 EOF
 chmod +x /usr/local/sbin/reset_security.sh
 
-
-# --- SCHRITT 4: Aufgabe 2 (Grep - Der korrekte Weg) ---
-
-echo "[Schritt 4] Erstelle Aufgabe 2 (Grep-Rätsel in /var/log/)..."
+# --- SCHRITT 4: Aufgabe 2 (Grep) ---
 LOG_DATEI="/var/log/aperture_system.log"
-echo "Systemstart..." > $LOG_DATEI
-for i in {1..200}; do echo "[INFO] Dienst $(head /dev/urandom | tr -dc A-Z | head -c 8) gestartet. Status: OK" >> $LOG_DATEI; done
-echo "[ERROR] KERNEL_PANIC_SIMULATION: Signal-Quelle isoliert. Ursprung: /usr/local/bin/core_dump_analyzer" >> $LOG_DATEI
+echo "Systemstart..." > "$LOG_DATEI"
+for i in {1..200}; do echo "[INFO] Dienst \$(head /dev/urandom | tr -dc A-Z | head -c 8) gestartet." >> "$LOG_DATEI"; done
+echo "[ERROR] KERNEL_PANIC_SIMULATION: Signal-Quelle: /usr/local/bin/core_dump_analyzer" >> "$LOG_DATEI"
+for i in {1..200}; do echo "[WARN] Speicher-Integritätsprüfung... \$((RANDOM % 100))% OK" >> "$LOG_DATEI"; done
+chmod 644 "$LOG_DATEI"
 
-# *** HIER WAR DIE KORREKTUR (Integritätsprüfung statt Integrizitätsprüfung) ***
-for i in {1..200}; do echo "[WARN] Speicher-Integritätsprüfung... $(($RANDOM % 100))% OK" >> $LOG_DATEI; done
-chmod 644 $LOG_DATEI
-
-
-# --- SCHRITT 5: Aufgabe 3 (Strings) mit Easter-Egg-Hinweis ---
-
-echo "[Schritt 5] Erstelle Aufgabe 3 (Strings-Rätsel) inkl. WASD-Hinweis..."
+# --- SCHRITT 5: Aufgabe 3 (Strings) ---
 BIN_DATEI="/usr/local/bin/core_dump_analyzer"
-
-cat << EOF > $BIN_DATEI
-#!/binGG/bash
-# Dies ist nur eine Attrappe.
-echo "ERROR: Core-Dump-Analyse fehlgeschlagen. Segmentierungsfehler."
-echo "Die Datei scheint binär und korrupt zu sein, aber ich glaube, ich sehe lesbare 'strings' (Zeichenketten) darin..."
-# Versuche 'strings' zu benutzen...
+cat << EOF > "$BIN_DATEI"
+#!/bin/bash
+echo "ERROR: Core-Dump-Analyse fehlgeschlagen."
 EOF
-head -c 1024 /dev/urandom >> $BIN_DATEI
+head -c 1024 /dev/urandom >> "$BIN_DATEI"
+echo "FLAGGE: Morpheus bot sie im Plural an. Nutzung von 'openssl' erforderlich." >> "$BIN_DATEI"
+echo "DEBUG_INPUT: wwssadadba" >> "$BIN_DATEI"
+head -c 1024 /dev/urandom >> "$BIN_DATEI"
+chmod 755 "$BIN_DATEI"
 
-echo "FLAGGE-HIER: Oh, du benutzt 'strings'? Clever. Der Hinweis, den du suchst: Morpheus bot sie dir in Plural an. Die Datei ist mit einem Standard 'openssl'-Chiffre gesperrt." >> $BIN_DATEI
-echo "DEBUG_INPUT: Veralteter Richtungseingabe-Puffer (wwssadadba) verursachte Überlauf." >> $BIN_DATEI
-head -c 1024 /dev/urandom >> $BIN_DATEI
-chmod 755 $BIN_DATEI
-
-
-# --- SCHRITT 6: Aufgabe 4 (OpenSSL - Der Kuchen) ---
-
-echo "[Schritt 6] Erstelle und verschlüssele Aufgabe 4 (den Kuchen)..."
+# --- SCHRITT 6: Aufgabe 4 (OpenSSL) ---
 KUCHEN_INHALT="Der Kuchen ist KEINE Lüge.
-
-    ,($)
-   .($)
- ,(($))
-,((($)))
-((((($))))
-((((($$$))))
-((((($$$$$))))
-((((($$$$$))))
-((((($$$))))
-'((((($))))
-  '((($)))
-     '($)
-
-Gut gemacht, Testsubjekt.
-Du darff jetzt... eine Pause machen.
-
--GLaDOS"
+ Gut gemacht.
+ -GLaDOS"
 echo "$KUCHEN_INHALT" > /tmp/kuchen.txt
 mkdir -p /opt/aperture_storage
 openssl enc -aes-256-cbc -salt -in /tmp/kuchen.txt -out /opt/aperture_storage/notfallplan.enc -pass pass:$ENCRYPT_PASS
@@ -226,48 +138,16 @@ rm /tmp/kuchen.txt
 chown -R "$BENUTZER":"$BENUTZER" /opt/aperture_storage
 chmod 644 /opt/aperture_storage/notfallplan.enc
 
-
-# --- SCHRITT 7: Erstelle Dokumentationsdateien ---
-# Diese Dateien werden im aktuellen Verzeichnis (.) erstellt,
-# in dem das Setup-Skript ausgeführt wird.
-
-echo "[Schritt 7] Erstelle Dokumentationsdateien im aktuellen Verzeichnis..."
-
-# Spieler-Handbuch
+# --- SCHRITT 7: Dokumentation ---
 cat << 'EOF' > "./SPIELER-HANDBUCH.md"
-🧪 Aperture Science Test-Handbuch (Für Testsubjekte)
-Testprotokoll: 48-C (Terminal-Integritätsprüfung) Testsubjekt: ... Überwacher: GLaDOS
+🧪 Aperture Science Test-Handbuch
+Login: su - testperson
+Passwort: aperture
+Aufgaben: Finden, Filtern, Analysieren, Entschlüsseln.
+EOF
 
-Willkommen, Testsubjekt.
-Du wurdest für ein Experiment von entscheidender Bedeutung ausgewählt. Oder besser gesagt, du warst verfügbar.
-Dieses Dokument dient als dein offizielles Handbuch für die bevorstehende Prüfung.
-Da du wahrscheinlich nicht in der Lage bist, komplexe Anweisungen zu verarbeiten, ist es kurz.
-
-1. Die Testparameter (Die Regeln)
-Dein "Raum": Dein Test findet ausschließlich in dieser textbasierten Schnittstelle statt, die manche 'Terminal' oder 'Shell' nennen.
-Es gibt keine bunten Fenster, die dich ablenken, keine hilfreichen Klick-Menüs. Nur du und ein blinkender Cursor.
-Deine "Werkzeuge": Alle Werkzeuge, die du zur Lösung der Aufgaben benötigest, sind bereits in diesem System installiert.
-Es ist nicht unsere Schuld, wenn du nicht weißt, wie man sie benutzt. Lesen hilft.
-
-Deine "Hilfe": Es gibt keine.
-
-2. Die Teststruktur (Deine 4 Aufgaben)
-Im Gegensatz zu früheren Tests, bei denen du nur einen roten Knopf drücken musstest (was du erstaunlich oft falsch gemacht hast), besteht dieser Test aus einer Kette von vier Aufgaben.
-Deine erste Anweisung, die du nach dem Login finden wirst (lies_mich.txt), wird dies bestätigen.
-Erwarte den folgenden Ablauf:
-
-1.Finden: Du musst einen versteckten Hinweis aufspüren.
-2.Filtern: Du musst diesen Hinweis nutzen, um relevante Informationen aus einer Menge "Lärm" zu extrahieren.
-3.Analysieren: Du musst eine obskure Datei untersuchen, um den nächsten Hinweis zu finden.
-4.Entschlüsseln: Du musst das finale Rätsel knacken, um an deine... Belohnung zu kommen.
-Jeder Schritt gibt dir den Hinweis für den nächsten. Ein Versagen in einem Glied der Kette bedeutet ein totales Versagen.
-Kein Druck.
-
-3. Beginn des Tests (Der Login)
-Um die Testumgebung zu betreten, befolge bitte exakt diese Schritte.
-Öffne das Terminal-Programm auf deinem Computer.
-
-Gib den folgenden Befehl ein, um dich als das designierte Testsubjekt anzumelden:
-
-```bash
-su - testperson
+clear
+echo "-----------------------------------------------------"
+echo "✅ SETUP ABGESCHLOSSEN"
+echo "Benutzer: $BENUTZER | Passwort: $PASSWORT"
+echo "-----------------------------------------------------"
