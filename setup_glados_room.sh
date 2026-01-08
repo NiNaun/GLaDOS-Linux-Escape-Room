@@ -100,6 +100,7 @@ echo "echo 'Fehler: Binär-Datenstrom unterbrochen.'" >> "/usr/local/bin/core_du
 head -c 512 /dev/urandom >> "/usr/local/bin/core_dump_analyzer"
 echo "PASSWORT-HINWEIS: Das Passwort ist das englische Wort für 'Pillen' (Mehrzahl). Nutze 'openssl aes-256-cbc' für das Finale." >> "/usr/local/bin/core_dump_analyzer"
 echo "ABKÜRZUNG (CHEAT): Geben Sie 'wwssadadba' direkt im Terminal ein." >> "/usr/local/bin/core_dump_analyzer"
+echo "Datei liegt in /opt/aperture_storage/"
 chmod 755 "/usr/local/bin/core_dump_analyzer"
 
 # 9. Ebene 4: Kryptografie
@@ -125,7 +126,7 @@ LÖSUNGSWEG:
 2. cat /var/lib/misc/.notiz_des_admins
 3. grep "KERNEL_PANIC_SIMULATION" /var/log/aperture_system.log
 4. strings /usr/local/bin/core_dump_analyzer
-5. Befehl: openssl enc -aes-256-cbc -d -pbkdf2 -in /opt/aperture_storage/notfallplan.enc
+5. Befehl: openssl enc -aes-256-cbc -d -pbkdf2 -in /opt/aperture_storage/notfallplan.enc -out /opt/aperture_storage/notfallplan.txt
    (Passwort-Eingabe: pills)
 Oder nutzen Sie den Cheat: wwssadadba
 EOF
