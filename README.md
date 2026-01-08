@@ -20,7 +20,7 @@ Methoden hierfür sind:
 Sobald sich das Skript in deiner VM befindet, öffne ein Terminal in der VM:
 
 4. Führe das Skript als Administrator aus
-sudo ./setup_glados_room.sh
+sudo bash ./setup_glados_room.sh
 
 Du befindest dich nun im Escape Room. Deine erste Anweisung (`lies_mich.txt`) wartet bereits auf dich.
 
