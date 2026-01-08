@@ -100,7 +100,7 @@ echo "echo 'Fehler: Binär-Datenstrom unterbrochen.'" >> "/usr/local/bin/core_du
 head -c 512 /dev/urandom >> "/usr/local/bin/core_dump_analyzer"
 echo "PASSWORT-HINWEIS: Das Passwort ist das englische Wort für 'Pillen' (Mehrzahl). Nutze 'openssl aes-256-cbc' für das Finale." >> "/usr/local/bin/core_dump_analyzer"
 echo "ABKÜRZUNG (CHEAT): Geben Sie 'wwssadadba' direkt im Terminal ein." >> "/usr/local/bin/core_dump_analyzer"
-echo "Datei liegt in /opt/aperture_storage/"
+echo "Datei liegt in /opt/aperture_storage/" >> "/usr/local/bin/core_dump_analyzer"
 chmod 755 "/usr/local/bin/core_dump_analyzer"
 
 # 9. Ebene 4: Kryptografie
