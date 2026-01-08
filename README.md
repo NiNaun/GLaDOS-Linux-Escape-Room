@@ -46,6 +46,4 @@ setup_glados_room.sh        (Das Skript, das Docker benutzt)
 
 cleanup_glados_room.sh      (Dein lokales Aufräum-Skript)
 
-SPIELER-HANDBUCH.md         (Anleitung für Spieler)
-
 LOESUNGSBUCH.md             (SPOILER! Die Lösung)
