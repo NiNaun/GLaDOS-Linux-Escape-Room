@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 5.4 - Absolute Stability) ===
+# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 5.6) ===
 #
-# WICHTIG: Ausführung als 'root' zwingend erforderlich.
+# WICHTIG: Dieses Skript muss als 'root' oder mit 'sudo' ausgeführt werden.
 #
 # === KONFIGURATION ===
 BENUTZER="testperson"
@@ -11,13 +11,13 @@ ENCRYPT_PASS="pills"
 # =====================
 
 if [ "$(id -u)" -ne 0 ]; then
-  echo "FEHLER: Root-Rechte erforderlich."
+  echo "FEHLER: Dieses Skript muss als root (oder mit sudo) ausgeführt werden."
   exit 1
 fi
 
-echo "Initialisiere GLaDOS Escape Room..."
+echo "Initialisiere GLaDOS Escape Room Environment..."
 
-# --- SCHRITT 0: Abhängigkeiten ---
+# --- SCHRITT 0: Abhängigkeiten prüfen ---
 if ! command -v curl &> /dev/null; then
     if command -v apt-get &> /dev/null; then
         apt-get update > /dev/null && apt-get install -y curl
@@ -44,7 +44,7 @@ fi
 
 # --- SCHRITT 2: Willkommensnachricht ---
 cat << EOF > "$USER_HOME/lies_mich.txt"
-Willkommen. Wieder einmal ein kleines Experiment — nur du, dein Verstand und ein freundlich gestimmtes Betriebssystem, das ganz zufällig ein paar Geheimnisse für dich versteckt hat.
+Willkommen. Wieder einmal ein kleines Experiment — nur du, dein Verstand und ein freundlich gestimmtes Betriebssystem.
 
 Deine Aufgabe ist eine Kette. Ein Glied führt zum nächsten. 
 
@@ -59,11 +59,8 @@ Erledige die gesamte Kette für das Ziel: Kuchen.
 GLaDOS
 EOF
 
-# --- SCHRITT 2.5: Cheat-Code (Hidden) ---
-# Entferne alte sichtbare Datei, falls vorhanden
+# --- SCHRITT 2.5: Cheat-Code (Versteckt) ---
 rm -f "$USER_HOME/wwssadadba"
-
-# Erstelle versteckte Datei
 cat << EOF > "$USER_HOME/.wwssadadba"
 #!/bin/bash
 echo "##############################################"
@@ -128,9 +125,7 @@ head -c 1024 /dev/urandom >> "$BIN_DATEI"
 chmod 755 "$BIN_DATEI"
 
 # --- SCHRITT 6: Aufgabe 4 (OpenSSL) ---
-KUCHEN_INHALT="Der Kuchen ist KEINE Lüge.
- Gut gemacht.
- -GLaDOS"
+KUCHEN_INHALT="Der Kuchen ist KEINE Lüge. Gut gemacht. -GLaDOS"
 echo "$KUCHEN_INHALT" > /tmp/kuchen.txt
 mkdir -p /opt/aperture_storage
 openssl enc -aes-256-cbc -salt -in /tmp/kuchen.txt -out /opt/aperture_storage/notfallplan.enc -pass pass:$ENCRYPT_PASS
@@ -139,15 +134,58 @@ chown -R "$BENUTZER":"$BENUTZER" /opt/aperture_storage
 chmod 644 /opt/aperture_storage/notfallplan.enc
 
 # --- SCHRITT 7: Dokumentation ---
-cat << 'EOF' > "./SPIELER-HANDBUCH.md"
-🧪 Aperture Science Test-Handbuch
-Login: su - testperson
-Passwort: aperture
-Aufgaben: Finden, Filtern, Analysieren, Entschlüsseln.
+echo "[Schritt 7] Erstelle Dokumentationsdateien..."
+
+# 7.1 hilfsbuch.txt
+cat << 'EOF' > "./hilfsbuch.txt"
+Aperture Science - Testsubjekt Hilfestellungen
+
+Aufgabe 1: Die Suche
+- Verzeichnis: /var/lib/misc
+- Versteckte Dateien beginnen mit einem Punkt (.). Nutze 'ls -a'.
+
+Aufgabe 2: Filtern
+- Log-Datei: /var/log/aperture_system.log
+- Signal-ID: "KERNEL_PANIC_SIMULATION"
+- Werkzeug: 'grep'
+
+Aufgabe 3: Analyse
+- Pfad: /usr/local/bin/core_dump_analyzer
+- Werkzeug: 'strings'
+
+Aufgabe 4: Finale
+- Passwort-Hinweis: Morpheus/Matrix (Pillen Plural).
+- Werkzeug: 'openssl' mit 'aes-256-cbc'.
+EOF
+
+# 7.2 loesungsbuch.txt
+cat << 'EOF' > "./loesungsbuch.txt"
+GLaDOS Escape Room - Vollständiger Lösungsweg
+
+1. Einstieg:
+su - testperson (Passwort: aperture)
+
+2. Aufgabe 1:
+cd /var/lib/misc
+ls -a
+cat .notiz_des_admins
+
+3. Aufgabe 2:
+grep "KERNEL_PANIC_SIMULATION" /var/log/aperture_system.log
+
+4. Aufgabe 3:
+strings /usr/local/bin/core_dump_analyzer
+(Ergibt Passwort: pills | Cheat: wwssadadba)
+
+5. Aufgabe 4:
+openssl enc -aes-256-cbc -d -in /opt/aperture_storage/notfallplan.enc
+(Passwort: pills)
+
+Alternative: wwssadadba direkt eingeben.
 EOF
 
 clear
 echo "-----------------------------------------------------"
 echo "✅ SETUP ABGESCHLOSSEN"
-echo "Benutzer: $BENUTZER | Passwort: $PASSWORT"
+echo "Dokumente erstellt: hilfsbuch.txt, loesungsbuch.txt"
 echo "-----------------------------------------------------"
