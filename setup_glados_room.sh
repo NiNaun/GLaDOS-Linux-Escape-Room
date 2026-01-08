@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 5.6) ===
+# === GLaDOS ESCAPE ROOM SETUP-SKRIPT (Version 5.7) ===
 #
 # WICHTIG: Dieses Skript muss als 'root' oder mit 'sudo' ausgeführt werden.
 #
@@ -184,8 +184,16 @@ openssl enc -aes-256-cbc -d -in /opt/aperture_storage/notfallplan.enc
 Alternative: wwssadadba direkt eingeben.
 EOF
 
+# --- FINALE AUSGABE ---
 clear
 echo "-----------------------------------------------------"
-echo "✅ SETUP ABGESCHLOSSEN"
+echo "✅ GLaDOS ESCAPE ROOM ERFOLGREICH EINGERICHTET!"
+echo ""
 echo "Dokumente erstellt: hilfsbuch.txt, loesungsbuch.txt"
+echo ""
+echo "Der Spieler kann sich jetzt einloggen mit:"
+echo "  Benutzer: $BENUTZER"
+echo "  Passwort: $PASSWORT"
+echo ""
+echo "Befehl zum Starten: su - $BENUTZER"
 echo "-----------------------------------------------------"
